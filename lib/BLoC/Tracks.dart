@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:music_app/BLoC/Home.dart';
 import 'package:music_app/Models/Lyrics.dart';
 import 'package:music_app/Models/Track.dart';
 import 'package:rxdart/rxdart.dart';
@@ -20,20 +21,17 @@ class TracksBLoC {
   Function(Lyrics) get addLyrics => _lyricsController.sink.add;
   Stream<Lyrics> get getLyrics => _lyricsController.stream;
 
-  void init(int trackID) {
+  void init() {
     _trackController = BehaviorSubject();
     _lyricsController = BehaviorSubject();
-    fetchTrack(trackID);
+    fetchTrack();
   }
 
-  Future<void> fetchTrack(int trackID) async {
-    print(trackID);
+  Future<void> fetchTrack() async {
     String trackURL =
-        'https://api.musixmatch.com/ws/1.1/track.get?track_id=$trackID&apikey=4064db6ee21a0b1db5e09bb2d2627a4e';
+        'https://api.musixmatch.com/ws/1.1/track.get?track_id=${HomeBLoC().selectedTrack.trackID}&apikey=4064db6ee21a0b1db5e09bb2d2627a4e';
     Response res = await get(trackURL);
-    print(res.statusCode);
     Map<String, dynamic> dec = json.decode(res.body);
-    print(dec);
     if (res.statusCode == 200 &&
         dec['message']['header']['status_code'] == 200) {
       Track track = Track.fromMap(
@@ -43,12 +41,12 @@ class TracksBLoC {
       print(dec);
       addTrack(null);
     }
-    fetchLyrics(trackID);
+    fetchLyrics();
   }
 
-  Future<void> fetchLyrics(int trackID) async {
+  Future<void> fetchLyrics() async {
     String lyricsURL =
-        'https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=$trackID&apikey=4064db6ee21a0b1db5e09bb2d2627a4e';
+        'https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${HomeBLoC().selectedTrack.trackID}&apikey=4064db6ee21a0b1db5e09bb2d2627a4e';
     Response res = await get(lyricsURL);
     Map<String, dynamic> dec = json.decode(res.body);
     if (res.statusCode == 200 &&

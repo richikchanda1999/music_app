@@ -16,6 +16,8 @@ class HomeBLoC {
   Function(List<Track>) get addTracks => _trackController.sink.add;
   Stream<List<Track>> get getTracks => _trackController.stream;
 
+  Track selectedTrack;
+
   void init() {
     allTracksURL =
         'https://api.musixmatch.com/ws/1.1/chart.tracks.get?apikey=4064db6ee21a0b1db5e09bb2d2627a4e';
@@ -25,7 +27,8 @@ class HomeBLoC {
   }
 
   void toTrackDetailPage(Track track) {
-    TracksBLoC().init(track.trackID);
+    selectedTrack = track;
+    TracksBLoC().init();
     ScreenBLoC().addScreen(Screens.TRACKS);
   }
 

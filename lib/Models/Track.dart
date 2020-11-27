@@ -76,7 +76,7 @@ class Track {
         'instrumental': isInstrumental ? 1 : 0,
         'num_favourite': numFavourite,
         'primary_genres': {
-          'music_genre_list': musicGenreList.map((e) => e.toMap()).toList()
+          'music_genre_list': musicGenreList.map((e) => {'music_genre': e.toMap()}).toList()
         },
         'restricted': isRestricted,
         'track_edit_url': editURL,
