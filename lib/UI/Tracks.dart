@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/BLoC/Bookmarks.dart';
 import 'package:music_app/BLoC/Tracks.dart';
 import 'package:music_app/Models/Lyrics.dart';
 import 'package:music_app/Models/Track.dart';
@@ -23,6 +24,32 @@ class TracksScreen extends StatelessWidget {
           ),
           onPressed: TracksBLoC().back,
         ),
+        actions: [
+          StreamBuilder<Track>(
+            stream: TracksBLoC().getTrack,
+            builder: (_, snapshot) {
+              if (!snapshot.hasData || snapshot.data == null)
+                return Container();
+              bool isBookmarked = BookmarkBLoC().isBookmarked(snapshot.data);
+              return IconButton(
+                icon: StreamBuilder<List<Track>>(
+                  stream: BookmarkBLoC().getTracks,
+                  builder: (context, snap) {
+                    return Icon(
+                      snap.data.map((e) => e.trackID).contains(snapshot.data.trackID) ? Icons.bookmark : Icons.bookmark_border,
+                      color: Colors.black,
+                    );
+                  }
+                ),
+                onPressed: () async {
+                  isBookmarked
+                      ? await BookmarkBLoC().removeBookmark(snapshot.data)
+                      : await BookmarkBLoC().addBookmark(snapshot.data);
+                },
+              );
+            },
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

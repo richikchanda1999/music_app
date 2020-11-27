@@ -17,4 +17,12 @@ class MusicGenre {
     nameExtended = map['music_genre_name_extended'];
     vanity = map['music_genre_vanity'];
   }
+
+  Map<String, dynamic> toMap() => {
+        'music_genre_id': id,
+        'music_genre_parent_id': parentID,
+        'music_genre_name': name,
+        'music_genre_name_extended': nameExtended,
+        'music_genre_vanity': vanity,
+      };
 }

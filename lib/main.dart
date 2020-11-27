@@ -1,6 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:music_app/BLoC/Bookmarks.dart';
 import 'package:music_app/BLoC/Home.dart';
+import 'package:path_provider/path_provider.dart';
 import 'BLoC/Screens.dart';
 import 'UI/Home.dart';
 import 'UI/NoInternet.dart';
@@ -9,8 +12,12 @@ import 'BLoC/InternetConnectivity.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Hive.init((await getApplicationSupportDirectory()).path);
   InternetConnectivity().init();
   ScreenBLoC().init();
+
+  await BookmarkBLoC().init();
+
   runApp(MusicApp());
 }
 

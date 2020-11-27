@@ -51,4 +51,14 @@ class Lyrics {
     scriptTrackingURL = map['script_tracking_url'];
     updatedTime = map['updated_time'];
   }
+
+  Map<String, dynamic> toMap() => {
+    'lyrics_body': body,
+    'explicit': isExplicit ? 1 : 0,
+    'lyrics_copyright': copyright,
+    'lyrics_id': id,
+    'pixel_tracking_url': pixelTrackingURL,
+    'script_tracking_url': scriptTrackingURL,
+    'updated_time': updatedTime,
+  };
 }

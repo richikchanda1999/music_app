@@ -62,4 +62,28 @@ class Track {
     shareURL = map['track_share_url'];
     updatedTime = map['updated_time'];
   }
+
+  Map<String, dynamic> toMap() => {
+        'album_id': albumID,
+        'album_name': albumName,
+        'artist_id': artistID,
+        'artist_name': artistName,
+        'commontrack_id': commonTrackID,
+        'explicit': isExplicit ? 1 : 0,
+        'has_lyrics': hasLyrics ? 1 : 0,
+        'has_richsync': hasRichSync ? 1 : 0,
+        'has_subtitles': hasSubtitles ? 1 : 0,
+        'instrumental': isInstrumental ? 1 : 0,
+        'num_favourite': numFavourite,
+        'primary_genres': {
+          'music_genre_list': musicGenreList.map((e) => e.toMap()).toList()
+        },
+        'restricted': isRestricted,
+        'track_edit_url': editURL,
+        'track_id': trackID,
+        'track_name': name,
+        'track_rating': trackRating,
+        'track_share_url': shareURL,
+        'updated_time': updatedTime,
+      };
 }
